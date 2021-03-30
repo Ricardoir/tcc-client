@@ -4,8 +4,8 @@ Client - Angular 8.
 O código cliente depende da API RESTful [].
 Para executar o cliente (após a execução da API RESTful), execute os seguintes passos:
 ``
-git clone [colocar o link do git]
-cd [pasta com o projeto]
+git clone https://github.com/Ricardoir/tcc-client
+cd tcc-client
 npm install -g @angular/cli
 npm install
 npm start
