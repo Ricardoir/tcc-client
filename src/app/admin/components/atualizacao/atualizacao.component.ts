@@ -5,10 +5,10 @@ import { MatSnackBar } from '@angular/material';
 
 import * as moment from 'moment';
 
-import { 
-  Lancamento, 
-  Tipo, 
-  LancamentoService 
+import {
+  Lancamento,
+  Tipo,
+  LancamentoService
 } from '../../../shared';
 
 @Component({
@@ -38,7 +38,7 @@ export class AtualizacaoComponent implements OnInit {
   	this.horas = this.gerarListaNumeros(0, 23);
   	this.minutos = this.gerarListaNumeros(0, 59);
   	this.tipos = [
-  		Tipo.INICIO_TRABALHO, 
+  		Tipo.INICIO_TRABALHO,
   		Tipo.INICIO_ALMOCO,
   		Tipo.TERMINO_ALMOCO,
   		Tipo.TERMINO_TRABALHO
@@ -56,6 +56,7 @@ export class AtualizacaoComponent implements OnInit {
           this.form.get('horas').setValue(data.substr(11, 2));
           this.form.get('minutos').setValue(data.substr(14, 2));
           this.form.get('tipo').setValue(dados.data.tipo);
+          this.form.get('descricao').setValue(dados.data.descricao);
           this.localizacao = dados.data.localizacao;
         },
         err => {
@@ -83,7 +84,8 @@ export class AtualizacaoComponent implements OnInit {
   		data: ['', [Validators.required]],
   		tipo: ['', [Validators.required]],
       horas: ['', [Validators.required]],
-      minutos: ['', [Validators.required]]
+      minutos: ['', [Validators.required]],
+      descricao: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(85)]]
   	});
   }
 
@@ -110,18 +112,20 @@ export class AtualizacaoComponent implements OnInit {
 
   obterLancamento(dados: any): Lancamento {
     const data = moment(dados.data);
-    data.set({ 
-      hour: dados.horas, 
-      minute: dados.minutos, 
-      second: 0 
+    data.set({
+      hour: dados.horas,
+      minute: dados.minutos,
+      second: 0
     });
-    
+
     return new Lancamento(
-        data.format('YYYY-MM-DD HH:mm:ss'), 
-        dados.tipo, 
+        data.format('YYYY-MM-DD HH:mm:ss'),
+        dados.tipo,
         this.localizacao,
-        this.funcionarioId, 
+        this.funcionarioId,
+        dados.descricao,
         this.lancamentoId
+
       );
   }
 

@@ -23,6 +23,7 @@ export class CadastroComponent implements OnInit {
   minutos: string[];
   tipos: string[];
 
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class CadastroComponent implements OnInit {
   	this.gerarForm();
   	this.horas = this.gerarListaNumeros(0, 23);
   	this.minutos = this.gerarListaNumeros(0, 59);
+    this.obterGeoLocation();
   	this.tipos = [
   		Tipo.INICIO_TRABALHO,
   		Tipo.INICIO_ALMOCO,
@@ -47,8 +49,18 @@ export class CadastroComponent implements OnInit {
       data: ['', [Validators.required]],
       tipo: ['', [Validators.required]],
       horas: ['', [Validators.required]],
-      minutos: ['', [Validators.required]]
+      minutos: ['', [Validators.required]],
+      descricao: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(85)]],
+      localizacao: ['']
     });
+  }
+
+  get geoLocation(): string {
+    return this.form.get('localizacao').value;
+  }
+
+  set geoLocation(location: string) {
+    this.form.get('localizacao').setValue(location);
   }
 
   gerarListaNumeros(inicio: number, termino: number): string[] {
@@ -95,7 +107,7 @@ export class CadastroComponent implements OnInit {
     return new Lancamento(
         data.format('YYYY-MM-DD HH:mm:ss'),
         dados.tipo,
-        '',
+        dados.localizacao,
         dados.descricao,
         this.funcionarioId
       );
@@ -103,6 +115,19 @@ export class CadastroComponent implements OnInit {
 
   get funcionarioId(): string {
     return sessionStorage['funcionarioId'];
+  }
+
+  obterGeoLocation(): string {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position =>
+        	this.geoLocation = `${position.coords.latitude},${position.coords.longitude}`);
+    }
+    return '';
+  }
+
+  obterUrlMapa(): string {
+  	return "https://www.google.com/maps/search/?api=1&query=" +
+  		this.geoLocation;
   }
 
 }
