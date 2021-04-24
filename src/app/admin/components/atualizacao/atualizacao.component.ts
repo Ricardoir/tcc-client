@@ -122,8 +122,8 @@ export class AtualizacaoComponent implements OnInit {
         data.format('YYYY-MM-DD HH:mm:ss'),
         dados.tipo,
         this.localizacao,
-        this.funcionarioId,
         dados.descricao,
+        this.funcionarioId,
         this.lancamentoId
 
       );
