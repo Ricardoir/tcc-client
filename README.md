@@ -1,4 +1,4 @@
-# Apontamento Inteligente Client - TCC Puc Minas Arquitetura de Software Distribuido #
+# Apontamento de Horas Client - TCC Puc Minas Arquitetura de Software Distribuido #
 Client - Angular 8.
 ### Como executar a aplicação
 O código cliente depende da API RESTful https://github.com/Ricardoir/tcc-api.
